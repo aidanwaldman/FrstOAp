@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>NexacoreGPU — Enterprise GPU Cloud Infrastructure</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: #0a0e1a;
+    color: #c8d4e8;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+  }
+
+  /* ===== BORING ENTERPRISE PAGE ===== */
+  #boring-page {
+    position: absolute;
+    inset: 0;
+    background: #f4f6f9;
+    color: #1a1f2e;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.8s ease;
+    overflow: hidden;
+  }
+
+  .enterprise-nav {
+    background: #1a2540;
+    padding: 0 32px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #00b4d8;
+  }
+
+  .enterprise-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 15px;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+  }
+
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #00b4d8, #0077b6);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8ba3c7;
+  }
+
+  .nav-links span { cursor: pointer; }
+  .nav-links span:hover { color: #fff; }
+
+  .nav-cta {
+    background: #00b4d8;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  .enterprise-hero {
+    background: linear-gradient(160deg, #1a2540 0%, #0f1825 60%, #0a1520 100%);
+    padding: 60px 64px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(0,180,216,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,180,216,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,180,216,0.12);
+    border: 1px solid rgba(0,180,216,0.3);
+    color: #00b4d8;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    margin-bottom: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .hero-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.15;
+    max-width: 600px;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-title span { color: #00b4d8; }
+
+  .hero-subtitle {
+    font-size: 14px;
+    color: #6b85a8;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: #00b4d8;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: #8ba3c7;
+    border: 1px solid #2a3a5c;
+    padding: 12px 24px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  .stats-bar {
+    background: #f4f6f9;
+    border-bottom: 1px solid #dde3ef;
+    display: flex;
+    padding: 0 64px;
+  }
+
+  .stat-item {
+    padding: 20px 40px 20px 0;
+    margin-right: 40px;
+    border-right: 1px solid #dde3ef;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f1825;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #8ba3c7;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+
+  .enterprise-content {
+    padding: 36px 64px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    flex: 1;
+  }
+
+  .feature-card {
+    background: #fff;
+    border: 1px solid #dde3ef;
+    padding: 24px;
+    border-top: 3px solid #00b4d8;
+  }
+
+  .feature-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(0,180,216,0.08);
+    border: 1px solid rgba(0,180,216,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .feature-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a2540;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .feature-desc {
+    font-size: 11.5px;
+    color: #6b85a8;
+    line-height: 1.65;
+  }
+
+  .ticker {
+    background: #1a2540;
+    padding: 8px 0;
+    display: flex;
+    overflow: hidden;
+    border-top: 1px solid #2a3a5c;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 60px;
+    animation: ticker 12s linear infinite;
+    white-space: nowrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #4a6080;
+  }
+
+  .ticker-item { color: #00b4d8; }
+  .ticker-val { color: #48bb78; }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .countdown-bar {
+    position: absolute;
+    bottom: 36px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(0,180,216,0.15);
+    z-index: 10;
+  }
+
+  .countdown-fill {
+    height: 100%;
+    background: #00b4d8;
+    width: 100%;
+    animation: countdown 5s linear forwards;
+  }
+
+  @keyframes countdown {
+    from { width: 100%; }
+    to { width: 0%; }
+  }
+
+  /* ===== APRIL FOOLS PAGE ===== */
+  #fun-page {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    overflow: hidden;
+    text-align: center;
+    z-index: 5;
+  }
+
+  #fun-page.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .fun-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #fff5f5 0%, #fff0f9 50%, #f0f5ff 100%);
+  }
+
+  .big-emoji {
+    font-size: 80px;
+    margin-bottom: 16px;
+    animation: bounce 0.6s ease infinite alternate;
+    position: relative;
+    z-index: 2;
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0) rotate(-5deg); }
+    to { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  .april-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #ff6b6b;
+    background: #fff0f0;
+    border: 2px solid #ffcccc;
+    padding: 6px 16px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+    animation: wiggle 1s ease infinite;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-1deg); }
+    50% { transform: rotate(1deg); }
+  }
+
+  .fun-title {
+    font-size: 38px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1.2;
+    max-width: 560px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+    font-family: 'IBM Plex Sans', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .fun-title .pink { color: #ff6b9d; }
+  .fun-title .blue { color: #4ea8de; }
+
+  .fun-subtitle {
+    font-size: 16px;
+    color: #666;
+    max-width: 420px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+    font-style: italic;
+  }
+
+  .fun-stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .fun-stat {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .fun-stat-num {
+    font-size: 22px;
+    font-weight: 800;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .fun-stat-label {
+    font-size: 10px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+
+  .fun-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ff6b9d);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 0.05em;
+    box-shadow: 0 6px 24px rgba(255,107,107,0.35);
+    animation: pulse-btn 1.5s ease infinite;
+  }
+
+  @keyframes pulse-btn {
+    0%, 100% { transform: scale(1); box-shadow: 0 6px 24px rgba(255,107,107,0.35); }
+    50% { transform: scale(1.03); box-shadow: 0 8px 32px rgba(255,107,107,0.5); }
+  }
+
+  .floater {
+    position: absolute;
+    font-size: 28px;
+    animation: float-around linear infinite;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.7;
+  }
+
+  @keyframes float-around {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+  }
+
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confetti-fall linear infinite;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  @keyframes confetti-fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
+  }
+
+  .marquee-band {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ff6b6b;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 10px 0;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  .marquee-inner {
+    display: flex;
+    gap: 60px;
+    animation: marquee 8s linear infinite;
+    white-space: nowrap;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>
+</head>
+<body>
+
+<!-- BORING PAGE -->
+<div id="boring-page">
+  <nav class="enterprise-nav">
+    <div class="enterprise-logo">
+      <div class="logo-icon">⬡</div>
+      NEXACORE<span style="color:#00b4d8;font-weight:300">GPU</span>
+    </div>
+    <div class="nav-links">
+      <span>Platform</span>
+      <span>Solutions</span>
+      <span>Pricing</span>
+      <span>Docs</span>
+      <span>Enterprise</span>
+    </div>
+    <button class="nav-cta">Request Access</button>
+  </nav>
+
+  <div class="enterprise-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-badge">🟢 &nbsp;All Systems Operational — 99.997% Uptime SLA</div>
+    <div class="hero-title">
+      GPU-Optimized Cloud<br>Infrastructure for<br><span>Serious Workloads</span>
+    </div>
+    <div class="hero-subtitle">
+      Enterprise-grade distributed compute fabric with sub-microsecond InfiniBand interconnects, 
+      bare-metal provisioning, and compliance-ready isolated tenancy. 
+      Built for teams that cannot afford downtime.
+    </div>
+    <div class="hero-buttons">
+      <button class="btn-primary">Start Free Trial</button>
+      <button class="btn-secondary">View Architecture Docs</button>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">2.4M+</div>
+      <div class="stat-label">CUDA Cores Available</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">14ms</div>
+      <div class="stat-label">Avg. Provisioning Time</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">99.997%</div>
+      <div class="stat-label">Uptime SLA</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">47</div>
+      <div class="stat-label">Global Edge Nodes</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">SOC 2</div>
+      <div class="stat-label">Type II Certified</div>
+    </div>
+  </div>
+
+  <div class="enterprise-content">
+    <div class="feature-card">
+      <div class="feature-icon">⚙️</div>
+      <div class="feature-title">Bare-Metal GPU Provisioning</div>
+      <div class="feature-desc">Access NVIDIA H100, A100, and L40S instances with zero virtualization overhead. 
+        Dedicated NUMA-aware memory allocation ensures maximum throughput for distributed training workloads.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">Compliance-Ready Tenancy</div>
+      <div class="feature-desc">Isolated network segments with hardware-enforced tenant boundaries. HIPAA, SOC 2 Type II, 
+        FedRAMP Moderate, and ISO 27001 certifications available for regulated industries.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📡</div>
+      <div class="feature-title">InfiniBand Fabric Interconnect</div>
+      <div class="feature-desc">400Gbps HDR InfiniBand with RDMA over Converged Ethernet (RoCE v2). 
+        Non-blocking fat-tree topology optimized for all-reduce gradient synchronization in large-scale LLM training.</div>
+    </div>
+  </div>
+
+  <div class="countdown-bar">
+    <div class="countdown-fill"></div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span>GPU CLUSTER STATUS</span>
+      <span class="ticker-item">H100 80GB SXM5</span> <span class="ticker-val">▲ 847 AVAILABLE</span>
+      <span class="ticker-item">A100 40GB PCIe</span> <span class="ticker-val">▲ 2,341 AVAILABLE</span>
+      <span class="ticker-item">L40S 48GB</span> <span class="ticker-val">▲ 1,102 AVAILABLE</span>
+      <span class="ticker-item">SPOT PRICE H100</span> <span class="ticker-val">$2.49/hr</span>
+      <span class="ticker-item">NETWORK LATENCY</span> <span class="ticker-val">0.8μs P99</span>
+      <span class="ticker-item">ACTIVE JOBS</span> <span class="ticker-val">18,442</span>
+      &nbsp;&nbsp;&nbsp;
+      <span>GPU CLUSTER STATUS</span>
+      <span class="ticker-item">H100 80GB SXM5</span> <span class="ticker-val">▲ 847 AVAILABLE</span>
+      <span class="ticker-item">A100 40GB PCIe</span> <span class="ticker-val">▲ 2,341 AVAILABLE</span>
+      <span class="ticker-item">L40S 48GB</span> <span class="ticker-val">▲ 1,102 AVAILABLE</span>
+      <span class="ticker-item">SPOT PRICE H100</span> <span class="ticker-val">$2.49/hr</span>
+      <span class="ticker-item">NETWORK LATENCY</span> <span class="ticker-val">0.8μs P99</span>
+      <span class="ticker-item">ACTIVE JOBS</span> <span class="ticker-val">18,442</span>
+    </div>
+  </div>
+</div>
+
+<!-- APRIL FOOLS PAGE -->
+<div id="fun-page">
+  <div class="fun-bg"></div>
+
+  <div class="april-tag">🎉 April 1st, 2025 🎉</div>
+  <div class="big-emoji">🤡</div>
+  <div class="fun-title">
+    April Fools!<br>
+    Wish I found something<br>like <span class="pink">this</span>... maybe <span class="blue">tomorrow!</span>
+  </div>
+  <div class="fun-subtitle">
+    "GPU-optimized cloud infrastructure" is just a very elaborate way of saying we got you. 
+    NexacoreGPU is not real. Your dreams are.
+  </div>
+
+  <div class="fun-stats">
+    <div class="fun-stat">
+      <div class="fun-stat-num" style="color:#ff6b6b">0</div>
+      <div class="fun-stat-label">Real GPUs</div>
+    </div>
+    <div class="fun-stat">
+      <div class="fun-stat-num" style="color:#ff6b9d">∞</div>
+      <div class="fun-stat-label">Regrets</div>
+    </div>
+    <div class="fun-stat">
+      <div class="fun-stat-num" style="color:#4ea8de">1</div>
+      <div class="fun-stat-label">Good Joke</div>
+    </div>
+    <div class="fun-stat">
+      <div class="fun-stat-num" style="color:#48bb78">100%</div>
+      <div class="fun-stat-label">Got You</div>
+    </div>
+  </div>
+
+  <button class="fun-btn" onclick="moreConfetti()">🎊 Send More Confetti</button>
+
+  <div class="marquee-band">
+    <div class="marquee-inner">
+      <span>🎉 APRIL FOOLS</span><span>🤡 GOT YOU</span><span>🎊 NO GPUs WERE HARMED</span><span>🚀 MAYBE TOMORROW</span><span>💸 NOT A REAL COMPANY</span><span>🤖 BUILT WITH VIBES</span><span>🎉 APRIL FOOLS</span><span>🤡 GOT YOU</span><span>🎊 NO GPUs WERE HARMED</span><span>🚀 MAYBE TOMORROW</span><span>💸 NOT A REAL COMPANY</span><span>🤖 BUILT WITH VIBES</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const FLOATERS = ['🦆','🌮','🦄','🍕','🎸','🐸','🌈','💾','🦖','🎺','🧃','🎲','🦩','🍄','🤖','🎠','🦀','🍩'];
+  const CONFETTI_COLORS = ['#ff6b6b','#ff6b9d','#4ea8de','#48bb78','#ffd93d','#ff922b','#cc5de8','#74c0fc'];
+
+  function makeConfetti(count = 60) {
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = '-20px';
+      el.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+      el.style.width = (6 + Math.random() * 10) + 'px';
+      el.style.height = (6 + Math.random() * 10) + 'px';
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      el.style.animationDuration = (2.5 + Math.random() * 3) + 's';
+      el.style.animationDelay = (Math.random() * 2) + 's';
+      document.getElementById('fun-page').appendChild(el);
+      setTimeout(() => el.remove(), 7000);
+    }
+  }
+
+  function makeFloaters() {
+    FLOATERS.forEach((emoji, i) => {
+      const el = document.createElement('div');
+      el.className = 'floater';
+      el.textContent = emoji;
+      el.style.left = (5 + Math.random() * 90) + 'vw';
+      el.style.animationDuration = (5 + Math.random() * 8) + 's';
+      el.style.animationDelay = (Math.random() * 6) + 's';
+      el.style.fontSize = (18 + Math.random() * 28) + 'px';
+      document.getElementById('fun-page').appendChild(el);
+    });
+  }
+
+  function moreConfetti() {
+    makeConfetti(80);
+  }
+
+  setTimeout(() => {
+    const boring = document.getElementById('boring-page');
+    const fun = document.getElementById('fun-page');
+    boring.style.opacity = '0';
+    boring.style.pointerEvents = 'none';
+    fun.classList.add('visible');
+    makeConfetti(80);
+    makeFloaters();
+    setInterval(() => makeConfetti(20), 3500);
+  }, 5000);
+</script>
+</body>
+</html>
